@@ -1,0 +1,27 @@
+service: nestjs-backend
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+
+functions:
+  api:
+    handler: dist/main.handler  # Ensure the handler points to the dist directory
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+    - .git/**
+    - .vscode/**
+    - README.md
+
+plugins:
+  - serverless-offline
